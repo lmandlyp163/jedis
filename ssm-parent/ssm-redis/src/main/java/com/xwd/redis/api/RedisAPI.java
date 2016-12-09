@@ -1,6 +1,10 @@
 package com.xwd.redis.api;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.collect.Lists;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
@@ -50,11 +54,17 @@ public class RedisAPI {
 			e.printStackTrace();
 		}
 	      print("key112的剩余生存时间："+redis.ttl("key112"));
+	      //取消的生存时间就不会消失
 	      print("key112的取消过期时间："+redis.persist("key112"));
 	      print("查看key112是否还存在："+redis.exists("key112"));
 	      print("查看key112的value类型："+redis.type("key112"));
 	      print("给key113改成key114："+redis.rename("key113", "key114"));
 	      print("查看key114value："+redis.get("key114"));
+	      
+	      
+	      //存储key -list
+	      List<String> list = Lists.newArrayList("string1","string2");
+	      print("查看key114value："+redis.get("list"));
 	}   
 	   
 	@Test
@@ -93,7 +103,7 @@ public class RedisAPI {
 	
 	@Test
 	public void ListApi(){
-		//list存储结构是栈类型的 最后插入的索引是0
+		//list存储结构是栈类型的 最后插入的索引是0  -1表示最先插入的
 		print("====================list======================");
 		print("清空数据："+redis.flushDB());
 		print("===========增加=================");
@@ -112,7 +122,7 @@ public class RedisAPI {
 		print("============修改=================");
 		print("对指定下标进行修改："+redis.lset("listString", -1, "vector-update"));
 		print("修改后的0下标值："+redis.lindex("listString", 0));
-		print("删除后的元素："+redis.lrange("listString", 0, -1));
+		print("修改后的元素："+redis.lrange("listString", 0, -1));
 		print("");
 		print("==============删除================");
 		print("删除指定的元素，重复的删除后添加的："+redis.lrem("listString", 1, "vector"));
@@ -149,6 +159,7 @@ public class RedisAPI {
 		print("判断元素是否在集合中："+redis.sismember("sets", "value2"));
 		print("==============删除=============");
 		print("删除指定的值："+redis.srem("sets", "value2"));
+		print("sets所有值："+redis.smembers("sets"));
 		print("元素出栈："+redis.spop("sets"));
 		print("sets:"+redis.smembers("sets"));
 		print("");
@@ -175,6 +186,8 @@ public class RedisAPI {
 		print("hashs添加key001=>value001"+redis.hset("hashs", "key001", "value001"));
 		print("hashs添加key002=>value002"+redis.hset("hashs", "key002", "value002"));
 		print("hashs添加key003=>value003"+redis.hset("hashs", "key003", "value003"));
+		//hincrBy 给指定的值新加这个数量
+		print("hashs添加key004=>4L"+redis.hincrBy("hashs", "key004", 4L));
 		print("hashs添加key004=>4L"+redis.hincrBy("hashs", "key004", 4L));
 		print("hashs:"+redis.hgetAll("hashs"));
 		print("===================查询================");
