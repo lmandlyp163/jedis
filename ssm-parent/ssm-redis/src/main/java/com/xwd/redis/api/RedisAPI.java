@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.SortingParams;
 public class RedisAPI {
 
@@ -23,10 +24,13 @@ public class RedisAPI {
 
 	}
 	private Jedis redis;   
-	   
+	
+	private ShardedJedis shardedJedis; 
+	
 	@Before
 	public void initConn(){
 		redis = RedisClient.getRedisClient().getJedis();
+		shardedJedis = RedisClient.getRedisClient().getShardedJedis();
 	}
 	   
 	@Test
@@ -233,6 +237,10 @@ public class RedisAPI {
 			
 			
 		}
+		
+		
+		
+		
 	    /**
 	     * 集群
 	     */
