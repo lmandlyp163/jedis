@@ -22,6 +22,8 @@ import redis.clients.jedis.JedisPoolConfig;
 
 /*
  * 	将red is比做memcache一样，value用来存储 对象的xu lie hu
+ * 
+ *  序列化工具：protostuff
  */
 public class JedisMSTest {
 
